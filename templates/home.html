@@ -53,28 +53,28 @@
 
     <hr class="neon-line">
 
-    <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
-        <div class="d-grid gap-2">
-            <a href="{{ url_for('nieuw_recept') }}" class="btn custom-btn w-100 w-md-auto">Nieuw Recept</a>
-            <a href="{{ url_for('importeer_recept') }}" class="btn custom-btn w-100 w-md-auto">Importeer Recept</a>
-            <a href="{{ url_for('favoriete_ingredienten') }}" class="btn custom-btn w-100 w-md-auto">Favoriete Ingrediënten</a>
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-md-6 d-flex flex-column flex-md-row gap-2">
+            <a href="{{ url_for('nieuw_recept') }}" class="btn custom-btn flex-fill flex-md-grow-0 ">Nieuw Recept</a>
+            <a href="{{ url_for('importeer_recept') }}" class="btn custom-btn flex-fill flex-md-grow-0 ">Importeer Recept</a>
+            <a href="{{ url_for('favoriete_ingredienten') }}" class="btn custom-btn flex-fill flex-md-grow-0 ">Favoriete Ingrediënten</a>
         </div>
-        <div class="d-grid gap-2">
-            <a href="{{ url_for('omrekenen') }}" class="btn custom-btn w-100 w-md-auto">Omrekenen</a>
-            <a href="{{ url_for('instellingen') }}" class="btn btn-outline-secondary w-100 w-md-auto">Instellingen</a>
+        <div class="col-12 col-md-6 d-flex flex-column flex-md-row gap-2">
+            <a href="{{ url_for('omrekenen') }}" class="btn custom-btn flex-fill flex-md-grow-0 ">Omrekenen</a>
+            <a href="{{ url_for('instellingen') }}" class="btn btn-outline-secondary flex-fill flex-md-grow-0 ">Instellingen</a>
         </div>
     </div>
 
     <form method="get" action="/" class="mb-4 row gx-2 gy-2 align-items-center">
         <div class="col-12 col-md">
-            <div class="input-group">
-                <input type="text" class="form-control w-100 w-md-auto" placeholder="Zoek recept..." name="zoekterm" value="{{ zoekterm }}">
-                <button class="btn custom-btn w-100 w-md-auto" type="submit">Zoeken</button>
+            <div class="d-flex flex-column flex-md-row gap-2">
+                <input type="text" class="form-control " placeholder="Zoek recept..." name="zoekterm" value="{{ zoekterm }}">
+                <button class="btn custom-btn flex-fill flex-md-grow-0 " type="submit">Zoeken</button>
             </div>
         </div>
 
         <div class="col-12 col-sm-6 col-md-2">
-            <select name="soort" class="form-select w-100 w-md-auto" onchange="this.form.submit()">
+            <select name="soort" class="form-select " onchange="this.form.submit()">
                 <option value="">Alle soorten</option>
                 {% for soort in instellingen.get('soorten', []) %}
                     <option value="{{ soort }}" {% if request.args.get('soort') == soort %}selected{% endif %}>{{ soort }}</option>
@@ -83,7 +83,7 @@
         </div>
 
         <div class="col-12 col-sm-6 col-md-2">
-            <select name="keuken" class="form-select w-100 w-md-auto" onchange="this.form.submit()">
+            <select name="keuken" class="form-select " onchange="this.form.submit()">
                 <option value="">Alle keukens</option>
                 {% for keuken in instellingen.get('keukens', []) %}
                     <option value="{{ keuken }}" {% if request.args.get('keuken') == keuken %}selected{% endif %}>{{ keuken }}</option>
@@ -100,7 +100,7 @@
 
         <div class="col-auto">
             <a href="{% if favorieten_filter == 'favorieten' %}{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave=weergave, favorieten='alles') }}{% else %}{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave=weergave, favorieten='favorieten') }}{% endif %}" 
-               class="btn custom-btn w-100 w-md-auto" title="Toon favorieten">
+               class="btn custom-btn flex-fill flex-md-grow-0 " title="Toon favorieten">
                 {% if favorieten_filter == 'favorieten' %}⭐{% else %}☆{% endif %}
             </a>
         </div>
@@ -142,7 +142,7 @@
                     <strong>{{ recept.titel }}</strong><br>
                     <small>Soort: {{ recept.soort }} | Keuken: {{ recept.keuken }}</small>
                 </div>
-                <a href="{{ url_for('recept_detail', index=loop.index0) }}" class="btn custom-btn btn-sm mt-2 mt-md-0 w-100 w-md-auto">Bekijk</a>
+                <a href="{{ url_for('recept_detail', index=loop.index0) }}" class="btn custom-btn btn-sm mt-2 mt-md-0 ">Bekijk</a>
             </li>
             {% endfor %}
         </ul>

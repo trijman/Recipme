@@ -53,26 +53,28 @@
 
     <hr class="neon-line">
 
-    <div class="d-grid gap-2 d-md-flex justify-content-md-between mb-3">
-        <div class="d-grid gap-2 w-100 me-md-2">
-            <a href="{{ url_for('nieuw_recept') }}" class="btn custom-btn w-100">Nieuw Recept</a>
-            <a href="{{ url_for('importeer_recept') }}" class="btn custom-btn w-100">Importeer Recept</a>
-            <a href="{{ url_for('favoriete_ingredienten') }}" class="btn custom-btn w-100">Favoriete Ingrediënten</a>
+    <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
+        <div class="d-grid gap-2">
+            <a href="{{ url_for('nieuw_recept') }}" class="btn custom-btn w-100 w-md-auto">Nieuw Recept</a>
+            <a href="{{ url_for('importeer_recept') }}" class="btn custom-btn w-100 w-md-auto">Importeer Recept</a>
+            <a href="{{ url_for('favoriete_ingredienten') }}" class="btn custom-btn w-100 w-md-auto">Favoriete Ingrediënten</a>
         </div>
-        <div class="d-grid gap-2 w-100 ms-md-2">
-            <a href="{{ url_for('omrekenen') }}" class="btn custom-btn w-100">Omrekenen</a>
-            <a href="{{ url_for('instellingen') }}" class="btn btn-outline-secondary w-100">Instellingen</a>
+        <div class="d-grid gap-2">
+            <a href="{{ url_for('omrekenen') }}" class="btn custom-btn w-100 w-md-auto">Omrekenen</a>
+            <a href="{{ url_for('instellingen') }}" class="btn btn-outline-secondary w-100 w-md-auto">Instellingen</a>
         </div>
     </div>
 
-    <form method="get" action="/" class="mb-4 d-flex flex-wrap align-items-center">
-        <div class="input-group me-2 mb-2 flex-grow-1" style="max-width: 100%;">
-            <input type="text" class="form-control" placeholder="Zoek recept..." name="zoekterm" value="{{ zoekterm }}">
-            <button class="btn custom-btn" type="submit">Zoeken</button>
+    <form method="get" action="/" class="mb-4 row gx-2 gy-2 align-items-center">
+        <div class="col-12 col-md">
+            <div class="input-group">
+                <input type="text" class="form-control w-100 w-md-auto" placeholder="Zoek recept..." name="zoekterm" value="{{ zoekterm }}">
+                <button class="btn custom-btn w-100 w-md-auto" type="submit">Zoeken</button>
+            </div>
         </div>
 
-        <div class="me-2 mb-2 w-100">
-            <select name="soort" class="form-select" onchange="this.form.submit()">
+        <div class="col-12 col-sm-6 col-md-2">
+            <select name="soort" class="form-select w-100 w-md-auto" onchange="this.form.submit()">
                 <option value="">Alle soorten</option>
                 {% for soort in instellingen.get('soorten', []) %}
                     <option value="{{ soort }}" {% if request.args.get('soort') == soort %}selected{% endif %}>{{ soort }}</option>
@@ -80,8 +82,8 @@
             </select>
         </div>
 
-        <div class="me-2 mb-2 w-100">
-            <select name="keuken" class="form-select" onchange="this.form.submit()">
+        <div class="col-12 col-sm-6 col-md-2">
+            <select name="keuken" class="form-select w-100 w-md-auto" onchange="this.form.submit()">
                 <option value="">Alle keukens</option>
                 {% for keuken in instellingen.get('keukens', []) %}
                     <option value="{{ keuken }}" {% if request.args.get('keuken') == keuken %}selected{% endif %}>{{ keuken }}</option>
@@ -89,23 +91,17 @@
             </select>
         </div>
 
-        <div class="btn-group me-2 mb-2">
-            <a href="{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave='blok', favorieten=favorieten_filter) }}" class="btn custom-btn {% if weergave == 'blok' %}active{% endif %}" title="Blokweergave">
-                📦
-            </a>
-            <a href="{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave='lijst', favorieten=favorieten_filter) }}" class="btn custom-btn {% if weergave == 'lijst' %}active{% endif %}" title="Lijstweergave">
-                📋
-            </a>
+        <div class="col-auto">
+            <div class="btn-group">
+                <a href="{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave='blok', favorieten=favorieten_filter) }}" class="btn custom-btn {% if weergave == 'blok' %}active{% endif %}" title="Blokweergave">📦</a>
+                <a href="{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave='lijst', favorieten=favorieten_filter) }}" class="btn custom-btn {% if weergave == 'lijst' %}active{% endif %}" title="Lijstweergave">📋</a>
+            </div>
         </div>
 
-        <div class="me-2 mb-2">
+        <div class="col-auto">
             <a href="{% if favorieten_filter == 'favorieten' %}{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave=weergave, favorieten='alles') }}{% else %}{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave=weergave, favorieten='favorieten') }}{% endif %}" 
-                class="btn custom-btn" title="Toon favorieten">
-                {% if favorieten_filter == 'favorieten' %}
-                    ⭐
-                {% else %}
-                    ☆
-                {% endif %}
+               class="btn custom-btn w-100 w-md-auto" title="Toon favorieten">
+                {% if favorieten_filter == 'favorieten' %}⭐{% else %}☆{% endif %}
             </a>
         </div>
     </form>
@@ -140,17 +136,13 @@
                 <div>
                     <form action="{{ url_for('toggle_favoriet', index=loop.index0) }}" method="post" style="display:inline;">
                         <button type="submit" style="border: none; background: none; font-size: 1.5rem; cursor: pointer;">
-                            {% if recept.favoriet %}
-                                ⭐
-                            {% else %}
-                                ☆
-                            {% endif %}
+                            {% if recept.favoriet %}⭐{% else %}☆{% endif %}
                         </button>
                     </form>
                     <strong>{{ recept.titel }}</strong><br>
                     <small>Soort: {{ recept.soort }} | Keuken: {{ recept.keuken }}</small>
                 </div>
-                <a href="{{ url_for('recept_detail', index=loop.index0) }}" class="btn custom-btn btn-sm mt-2 mt-md-0">Bekijk</a>
+                <a href="{{ url_for('recept_detail', index=loop.index0) }}" class="btn custom-btn btn-sm mt-2 mt-md-0 w-100 w-md-auto">Bekijk</a>
             </li>
             {% endfor %}
         </ul>
@@ -161,18 +153,11 @@
                 <div class="card mb-4 shadow-sm" onclick="window.location='{{ url_for('recept_detail', index=loop.index0) }}'" style="cursor: pointer;">
                     <div class="card-body">
                         <h5 class="card-title">{{ recept.titel }}</h5>
-                        <p class="card-text">
-                            Soort: {{ recept.soort }}<br>
-                            Keuken: {{ recept.keuken }}
-                        </p>
+                        <p class="card-text">Soort: {{ recept.soort }}<br>Keuken: {{ recept.keuken }}</p>
                         <a href="{{ url_for('recept_detail', index=loop.index0) }}" class="btn custom-btn btn-sm w-100 mb-2">Bekijk</a>
                         <form action="{{ url_for('toggle_favoriet', index=loop.index0) }}" method="post" style="display:inline;">
                             <button type="submit" style="border: none; background: none; font-size: 1.5rem; cursor: pointer;">
-                                {% if recept.favoriet %}
-                                    ⭐
-                                {% else %}
-                                    ☆
-                                {% endif %}
+                                {% if recept.favoriet %}⭐{% else %}☆{% endif %}
                             </button>
                         </form>
                     </div>

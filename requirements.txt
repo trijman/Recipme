@@ -9,3 +9,5 @@ google-auth
 openai-whisper
 torch
 pdfplumber
+pdf2image
+pillow

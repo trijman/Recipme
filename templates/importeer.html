@@ -2,6 +2,7 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Importeer Recept - Recepme</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/style.css" rel="stylesheet">
@@ -36,10 +37,10 @@
 </div>
 {% endif %}
 
-<div class="container my-5">
-    <div class="d-flex align-items-center mb-4">
-        <img src="{{ url_for('static', filename='Recepme_logo.png') }}" alt="Recepme logo" style="width: 100px;" class="me-3">
-        <h1 class="text-center flex-grow-1" style="color: #154754;">Importeer een Recept</h1>
+<div class="container-fluid px-3 my-5">
+    <div class="text-center mb-4">
+        <img src="{{ url_for('static', filename='Recepme_logo.png') }}" alt="Recepme logo" style="width: 100px;" class="mb-3">
+        <h1 class="h3">Importeer een Recept</h1>
     </div>
 
     <hr class="neon-line">
@@ -49,7 +50,7 @@
             <label class="form-label">Upload een bestand (.txt, .docx, .pdf)</label>
             <input type="file" class="form-control" name="bestand" accept=".txt,.docx,.pdf" required>
         </div>
-        <button type="submit" class="btn custom-btn">Upload Bestand</button>
+        <button type="submit" class="btn custom-btn w-100">Upload Bestand</button>
     </form>
 
     {% if tekst %}
@@ -86,20 +87,20 @@
 
         <div class="mb-3">
             <label class="form-label">Ingrediënten (selecteer uit onderstaande tekst)</label>
-            <textarea class="form-control" name="ingredienten" rows="8" required></textarea>
+            <textarea class="form-control" name="ingredienten" rows="6" required></textarea>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Bereidingswijze (selecteer uit onderstaande tekst)</label>
-            <textarea class="form-control" name="bereidingswijze" rows="8" required></textarea>
+            <textarea class="form-control" name="bereidingswijze" rows="6" required></textarea>
         </div>
 
         <h5 class="mt-4">Inhoud van bestand:</h5>
         <textarea class="form-control" rows="10" readonly>{{ tekst }}</textarea>
 
-        <div class="d-flex justify-content-between mt-4">
-            <a href="{{ url_for('home') }}" class="btn btn-secondary">← Terug naar Recepme</a>
-            <button type="submit" class="btn custom-btn">Opslaan als Recept</button>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary w-100 w-md-auto">← Terug naar Recepme</a>
+            <button type="submit" class="btn custom-btn w-100 w-md-auto">Opslaan als Recept</button>
         </div>
     </form>
     {% endif %}

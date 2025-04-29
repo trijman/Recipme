@@ -308,15 +308,18 @@ def importeer_recept():
                 with open(filepath, 'r', encoding='utf-8') as f:
                     tekst = f.read()
             elif ext == 'docx':
+                import docx
                 doc = docx.Document(filepath)
                 tekst = "\n".join([p.text for p in doc.paragraphs if p.text.strip()])
             elif ext == 'pdf':
+                import pdfplumber
                 with pdfplumber.open(filepath) as pdf:
                     tekst = "\n".join(page.extract_text() for page in pdf.pages if page.extract_text())
 
             os.remove(filepath)
 
     return render_template('importeer.html', tekst=tekst, instellingen=instellingen)
+
 
 @app.route('/opslaan_geimporteerd', methods=['POST'])
 @login_required

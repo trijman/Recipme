@@ -1,0 +1,6 @@
+.neon-line {
+    border: 0;
+    height: 2px;
+    background: linear-gradient(to right, #ff5500, #ff5500);
+    box-shadow: 0 0 5px #ff5500, 0 0 10px #ff5500;
+}

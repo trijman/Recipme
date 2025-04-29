@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Instellingen - Recepme</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+    <style>
+        .neon-line {
+            all: unset;
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: #154754;
+            margin: 2rem 0;
+        }
+        .custom-btn {
+            background-color: #154754;
+            color: white;
+            border: none;
+        }
+        .custom-btn:hover {
+            background-color: #103b42;
+        }
+        body, label, h1, h5, .form-label, .form-check-label {
+            color: #154754;
+        }
+    </style>
+</head>
+<body class="{% if instellingen.dark_mode %}bg-dark text-white{% else %}bg-light{% endif %}">
+
+{% if session.get('gebruiker') %}
+<div class="d-flex justify-content-end align-items-center p-3 bg-light border-bottom">
+    <span class="me-3">Ingelogd als {{ session['gebruiker'] }}</span>
+    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm">Uitloggen</a>
+</div>
+{% endif %}
+
+<div class="container my-5">
+    <div class="d-flex align-items-center mb-4">
+        <img src="{{ url_for('static', filename='Recepme_logo.png') }}" alt="Recepme logo" style="width: 100px;" class="me-3">
+        <h1 class="text-center flex-grow-1" style="color: #154754;">Instellingen</h1>
+    </div>
+
+    <hr class="neon-line">
+
+    <form method="POST" action="/instellingen">
+        <div class="mb-3">
+            <label class="form-label">Eenheden (één per regel)</label>
+            <textarea class="form-control" name="eenheden" rows="5">{{ instellingen.eenheden | join('\n') }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Soorten Gerechten (één per regel)</label>
+            <textarea class="form-control" name="soorten_gerechten" rows="5">{{ instellingen.soorten_gerechten | join('\n') }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Keukens (één per regel)</label>
+            <textarea class="form-control" name="keukens" rows="5">{{ instellingen.keukens | join('\n') }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Standaardweergave</label>
+            <select name="standaard_weergave" class="form-select">
+                <option value="blok" {% if instellingen.standaard_weergave == 'blok' %}selected{% endif %}>Blokweergave</option>
+                <option value="lijst" {% if instellingen.standaard_weergave == 'lijst' %}selected{% endif %}>Lijstweergave</option>
+            </select>
+        </div>
+
+        <div class="form-check form-switch mb-4">
+            <input class="form-check-input" type="checkbox" id="darkMode" name="dark_mode" value="aan" {% if instellingen.dark_mode %}checked{% endif %}>
+            <label class="form-check-label" for="darkMode">Donkere Modus (Dark Mode)</label>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">← Terug naar Recepme</a>
+            <button type="submit" class="btn custom-btn">Opslaan</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

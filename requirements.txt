@@ -6,8 +6,6 @@ werkzeug
 pydrive
 google-api-python-client
 google-auth
-openai-whisper
-torch
 pdfplumber
 pdf2image
 pillow

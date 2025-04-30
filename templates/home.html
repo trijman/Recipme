@@ -83,13 +83,45 @@
 
 
 	<form method="get" action="/" class="mb-4">
-		<div class="d-flex flex-column flex-md-row align-items-start gap-2">
+		<!-- Mobiele weergave -->
+		<div class="d-block d-md-none">
+			<input type="text" class="form-control mb-2" placeholder="Zoek recept..." name="zoekterm" value="{{ zoekterm }}">
+			<button class="btn custom-btn w-100 mb-2" type="submit">Zoeken</button>
+
+			<select name="soort" class="form-select mb-2" onchange="this.form.submit()">
+				<option value="">Alle soorten</option>
+				{% for soort in instellingen.get('soorten', []) %}
+					<option value="{{ soort }}" {% if request.args.get('soort') == soort %}selected{% endif %}>{{ soort }}</option>
+				{% endfor %}
+			</select>
+
+			<select name="keuken" class="form-select mb-2" onchange="this.form.submit()">
+				<option value="">Alle keukens</option>
+				{% for keuken in instellingen.get('keukens', []) %}
+					<option value="{{ keuken }}" {% if request.args.get('keuken') == keuken %}selected{% endif %}>{{ keuken }}</option>
+				{% endfor %}
+			</select>
+
+			<div class="d-flex justify-content-between mb-2">
+				<a href="{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave='blok', favorieten=favorieten_filter) }}" class="btn custom-btn w-50 me-1 {% if weergave == 'blok' %}active{% endif %}" title="Blokweergave">📦</a>
+				<a href="{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave='lijst', favorieten=favorieten_filter) }}" class="btn custom-btn w-50 ms-1 {% if weergave == 'lijst' %}active{% endif %}" title="Lijstweergave">📋</a>
+			</div>
+
+			<a href="{% if favorieten_filter == 'favorieten' %}{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave=weergave, favorieten='alles') }}{% else %}{{ url_for('home', zoekterm=zoekterm, soort=request.args.get('soort', ''), keuken=request.args.get('keuken', ''), weergave=weergave, favorieten='favorieten') }}{% endif %}"
+			   class="btn custom-btn w-100 mb-2" title="Toon favorieten">
+				{% if favorieten_filter == 'favorieten' %}⭐ Toon alles{% else %}☆ Toon favorieten{% endif %}
+			</a>
+		</div>
+
+		<!-- Desktop weergave -->
+		<div class="d-none d-md-flex flex-column flex-md-row align-items-start gap-2">
 			<div class="d-flex flex-column flex-md-row gap-2 flex-grow-1">
 				<input type="text" class="form-control" placeholder="Zoek recept..." name="zoekterm" value="{{ zoekterm }}">
 				<button class="btn custom-btn flex-fill flex-md-grow-0" type="submit">Zoeken</button>
 			</div>
 		</div>
-		<div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+
+		<div class="d-none d-md-flex flex-wrap align-items-center gap-2 mt-3">
 			<select name="soort" class="form-select w-auto" onchange="this.form.submit()">
 				<option value="">Alle soorten</option>
 				{% for soort in instellingen.get('soorten', []) %}
@@ -115,6 +147,7 @@
 			</a>
 		</div>
 	</form>
+
 
 
     {% if request.args.get('tag') %}

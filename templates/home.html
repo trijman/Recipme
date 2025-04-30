@@ -40,18 +40,19 @@
 <body class="bg-light">
 
 {% if session.get('gebruiker') %}
-<div class="d-flex justify-content-end align-items-center p-3 bg-light border-bottom">
+<div class="d-flex justify-content-end align-items-center p-3 bg-light">
     <span class="me-3">Ingelogd als {{ session['gebruiker'] }}</span>
     <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm">Uitloggen</a>
 </div>
 {% endif %}
 
-<div class="container-fluid px-3 my-5">
-    <div class="text-center mb-4">
-        <img src="{{ url_for('static', filename='Recepme_logo.png') }}" alt="Recepme logo" style="width: 200px;">
+<div class="container-fluid px-3 my-0">
+    <div class="text-center">
+        <img src="{{ url_for('static', filename='Recepme_logo.png') }}" alt="Recepme logo" style="width: 200px; margin-top: 2px; margin-bottom: 2px;">
     </div>
 
-    <hr class="neon-line">
+
+    
 
     <div class="row g-3 mb-3">
 		<div class="d-none d-md-flex justify-content-between">

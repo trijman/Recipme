@@ -40,16 +40,9 @@
 <body class="bg-light">
 
 {% if session.get('gebruiker') %}
-<div class="d-flex justify-content-end align-items-center p-3 bg-light">
-    <span class="me-3">Ingelogd als {{ session['gebruiker'] }}</span>
-    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm">Uitloggen</a>
-</div>
-{% endif %}
-
-<div class="container-fluid px-3 my-0">
-    <div class="d-flex justify-content-between align-items-center">
-    <!-- Mobiel hamburgermenu -->
-    <div class="d-md-none">
+<div class="d-flex align-items-center justify-content-between p-3 bg-light">
+    <!-- Links: hamburger (alleen mobiel) -->
+    <div class="d-md-none me-2">
         <div class="dropdown">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="mobielMenu" data-bs-toggle="dropdown" aria-expanded="false">
                 ☰ Menu
@@ -63,10 +56,24 @@
             </ul>
         </div>
     </div>
-    <div class="text-center mx-auto">
-        <img src="{{ url_for('static', filename='Recepme_logo.png') }}" alt="Recepme logo" style="width: 200px; margin-top: 2px; margin-bottom: 2px;">
+
+    <!-- Midden: logo -->
+    <div class="text-center flex-grow-1">
+        <img src="{{ url_for('static', filename='Recepme_logo.png') }}" alt="Recepme logo" style="height: 40px;">
+    </div>
+
+    <!-- Rechts: ingelogd + uitloggen -->
+    <div class="d-flex align-items-center">
+        <span class="me-3 d-none d-sm-block">Ingelogd als {{ session['gebruiker'] }}</span>
+        <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm">Uitloggen</a>
     </div>
 </div>
+
+
+{% endif %}
+
+<div class="container-fluid px-3 my-0">
+
 
 
 

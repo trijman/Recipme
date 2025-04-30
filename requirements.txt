@@ -9,3 +9,5 @@ google-auth
 pdfplumber
 pdf2image
 pillow
+markdown
+

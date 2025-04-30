@@ -57,23 +57,29 @@
 
     <ul class="list-group mb-4">
         {% for ingrediënt in ingredienten %}
-            {% if ingrediënt is mapping and ingrediënt['aantal'] is defined %}
-                <li class="list-group-item">
-                    {{ ingrediënt['aantal'] }} {{ ingrediënt['eenheid'] }} {{ ingrediënt['naam'] }}
-                </li>
-            {% else %}
-                <li class="list-group-item">{{ ingrediënt }}</li>
-            {% endif %}
-        {% endfor %}
+			{% if ingrediënt.aantal is defined %}
+				<li class="list-group-item">
+					{{ ingrediënt.aantal }} {{ ingrediënt.eenheid }} {{ ingrediënt.naam }}
+				</li>
+			{% else %}
+				<li class="list-group-item">{{ ingrediënt.naam }}</li>
+			{% endif %}
+		{% endfor %}
+
     </ul>
 
     <h4>Bereidingswijze</h4>
-    <p>{{ recept.bereidingswijze }}</p>
+    <div>{{ recept.bereidingswijze|safe }}</div>
 
-    <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
-        <a href="{{ url_for('exporteer_boodschappenlijst', index=index, personen=personen) }}" class="btn custom-btn w-100 w-md-auto">Exporteer naar Notepad</a>
-        <a href="{{ url_for('recept_detail', index=index) }}" class="btn btn-secondary w-100 w-md-auto">← Terug naar recept</a>
-    </div>
+    <div class="row mt-4 gy-2 gx-3">
+		<div class="col-12 col-md-auto">
+			<a href="{{ url_for('exporteer_boodschappenlijst', index=index, personen=personen) }}" class="btn custom-btn w-100">Exporteer naar Notepad</a>
+		</div>
+		<div class="col-12 col-md-auto">
+			<a href="{{ url_for('recept_detail', index=index) }}" class="btn btn-secondary w-100">← Terug naar recept</a>
+		</div>
+</div>
+
 </div>
 
 </body>

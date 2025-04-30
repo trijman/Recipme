@@ -51,19 +51,19 @@
         <p><strong>Keuken:</strong> {{ recept.keuken }}</p>
     </div>
 
-    <h4>Ingrediënten:</h4>
-    <ul>
-        {% for ingrediënt in recept.ingredienten %}
-            {% if ingrediënt.aantal is defined %}
-                <li>{{ ingrediënt.aantal }} {{ ingrediënt.eenheid }} {{ ingrediënt.naam }}</li>
-            {% else %}
-                <li>{{ ingrediënt }}</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+	<h4>Ingrediënten:</h4>
+	<ul>
+		{% for ingrediënt in recept.ingredienten %}
+			{% if ingrediënt.aantal is defined %}
+				<li>{{ ingrediënt.aantal }} {{ ingrediënt.eenheid }} {{ ingrediënt.naam }}</li>
+			{% else %}
+				<li>{{ ingrediënt.naam }}</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
 
     <h4 class="mt-4">Bereidingswijze:</h4>
-    <p>{{ recept.bereidingswijze }}</p>
+    <div>{{ recept.bereidingswijze_html|safe }}</div>
 
     {% if recept.link %}
     <div class="mt-4">
@@ -73,16 +73,44 @@
     </div>
     {% endif %}
 
-    <div class="mt-5 d-grid gap-2">
-        <a href="{{ url_for('home') }}" class="btn btn-secondary w-100">← Terug naar overzicht</a>
-        <a href="{{ url_for('print_recept', index=index) }}" class="btn custom-btn w-100">Print Recept</a>
-        <a href="{{ url_for('bewerk_recept', index=index) }}" class="btn custom-btn w-100">Bewerk Recept</a>
-        <a href="{{ url_for('boodschappenlijst', index=index) }}" class="btn custom-btn w-100">Boodschappenlijst</a>
-        <form action="{{ url_for('verwijder_recept', index=index) }}" method="post" onsubmit="return confirm('Weet je zeker dat je dit recept wilt verwijderen?');">
-            <button type="submit" class="btn btn-danger w-100">Verwijder Recept</button>
-        </form>
-    </div>
+	<div class="row mt-5 gy-2 gx-3">
+		<div class="col-12 col-md-auto">
+			<a href="{{ url_for('home') }}" class="btn btn-secondary w-100">← Terug naar overzicht</a>
+		</div>
+		<div class="col-12 col-md-auto">
+			<a href="{{ url_for('print_recept', index=index) }}" class="btn custom-btn w-100">Print Recept</a>
+		</div>
+		<div class="col-12 col-md-auto">
+			<a href="{{ url_for('bewerk_recept', index=index) }}" class="btn custom-btn w-100">Bewerk Recept</a>
+		</div>
+		<div class="col-12 col-md-auto">
+			<a href="{{ url_for('boodschappenlijst', index=index) }}" class="btn custom-btn w-100">Boodschappenlijst</a>
+		</div>
+		<div class="col-12 col-md-auto">
+			<form action="{{ url_for('verwijder_recept', index=index) }}" method="post" onsubmit="return confirm('Weet je zeker dat je dit recept wilt verwijderen?');">
+				<button type="submit" class="btn btn-danger w-100">Verwijder Recept</button>
+			</form>
+		</div>
+		<div class="col-12 col-md-auto">
+			<button onclick="deelRecept()" class="btn btn-outline-secondary w-100">📤 Deel dit recept</button>
+		</div>
+	</div>
 </div>
+
+<script>
+function deelRecept() {
+  if (navigator.share) {
+    navigator.share({
+      title: '{{ recept.titel }}',
+      text: 'Bekijk dit recept op Recepme:',
+      url: window.location.href
+    })
+    .catch((error) => console.log('Deelfout:', error));
+  } else {
+    alert('Delen wordt niet ondersteund op dit apparaat.');
+  }
+}
+</script>
 
 </body>
 </html>

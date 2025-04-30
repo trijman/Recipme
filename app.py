@@ -7,6 +7,11 @@ import pdfplumber
 from flask import session
 import hashlib
 from datetime import timedelta
+from datetime import datetime
+import markdown
+from markupsafe import Markup
+import re
+
 
 
 app = Flask(__name__)
@@ -156,7 +161,8 @@ def nieuw_recept():
             'ingredienten': ingredienten,
             'bereidingswijze': bereidingswijze,
             'tags': tags,
-            'favoriet': False
+            'favoriet': False,
+            'laatst_bewerkt': datetime.now().isoformat()
         }
         recepten.append(nieuw)
         save_recipes(recepten)
@@ -171,9 +177,12 @@ def recept_detail(index):
     recepten = load_recipes()
     if 0 <= index < len(recepten):
         recept = recepten[index]
+        from markupsafe import Markup
+        recept['bereidingswijze_html'] = Markup(recept['bereidingswijze'])
         return render_template('recept.html', recept=recept, index=index)
     else:
         return "Recept niet gevonden.", 404
+
 
 @app.route('/verwijder/<int:index>', methods=['POST'])
 @login_required
@@ -202,22 +211,25 @@ def bewerk_recept(index):
             recept['keuken'] = request.form.get('keuken', '')
             recept['link'] = request.form.get('link', '')
 
-
-            # Tags verwerken
             tags_input = request.form.get('tags', '')
             tags = [tag.strip() for tag in tags_input.split(',') if tag.strip()]
             recept['tags'] = tags
 
-            ingredienten = []
-            aantallen = request.form.getlist('aantal')
-            eenheden = request.form.getlist('eenheid')
-            namen = request.form.getlist('naam')
-            for aantal, eenheid, naam in zip(aantallen, eenheden, namen):
-                if naam.strip():
-                    ingredienten.append({"aantal": aantal, "eenheid": eenheid, "naam": naam})
+            if recept.get('geimporteerd'):
+                regels = request.form['ingredienten'].splitlines()
+                recept['ingredienten'] = [{"naam": regel.strip()} for regel in regels if regel.strip()]
+            else:
+                ingredienten = []
+                aantallen = request.form.getlist('aantal')
+                eenheden = request.form.getlist('eenheid')
+                namen = request.form.getlist('naam')
+                for aantal, eenheid, naam in zip(aantallen, eenheden, namen):
+                    if naam.strip():
+                        ingredienten.append({"aantal": aantal, "eenheid": eenheid, "naam": naam})
+                recept['ingredienten'] = ingredienten
 
-            recept['ingredienten'] = ingredienten
             recept['bereidingswijze'] = request.form['bereidingswijze']
+            recept['laatst_bewerkt'] = datetime.now().isoformat()
 
             save_recipes(recepten)
             return redirect(url_for('home'))
@@ -328,11 +340,12 @@ def opslaan_geimporteerd():
     personen = request.form.get('personen', '')
     soort = request.form.get('soort', '')
     keuken = request.form.get('keuken', '')
-
-    ingredienten_text = request.form['ingredienten'].splitlines()
     bereidingswijze = request.form['bereidingswijze']
+    link = request.form.get('link', '')
 
-    ingredienten = [regel for regel in ingredienten_text if regel.strip()]
+    ingevoerde_ingredienten = request.form['ingredienten']
+    regels = [regel.strip() for regel in ingevoerde_ingredienten.split('\n') if regel.strip()]
+    ingredienten = [{"naam": regel} for regel in regels]
 
     nieuw_recept = {
         'titel': titel,
@@ -342,8 +355,8 @@ def opslaan_geimporteerd():
         'ingredienten': ingredienten,
         'bereidingswijze': bereidingswijze,
         'favoriet': False,
-        "link": request.form.get('link', ''),
-
+        'link': link,
+        'geimporteerd': True
     }
 
     recepten = load_recipes()
@@ -351,10 +364,13 @@ def opslaan_geimporteerd():
     save_recipes(recepten)
 
     return redirect(url_for('home'))
+
+
     
 @app.route('/exporteer_boodschappenlijst/<int:index>/<int:personen>')
 @login_required
 def exporteer_boodschappenlijst(index, personen):
+    import re
     recepten = load_recipes()
     if 0 <= index < len(recepten):
         recept = recepten[index]
@@ -369,18 +385,24 @@ def exporteer_boodschappenlijst(index, personen):
                     aantal = int(aantal) if aantal.is_integer() else round(aantal, 2)
                     regels.append(f"- {aantal} {ing.get('eenheid', '')} {ing.get('naam', '')}")
                 except (ValueError, TypeError):
-                    regels.append(f"- {ing}")
+                    regels.append(f"- {ing.get('naam', str(ing))}")
             else:
-                regels.append(f"- {ing}")
+                regels.append(f"- {ing.get('naam', str(ing))}")
+
 
         regels.append("\nBereidingswijze:")
-        regels.append(recept.get('bereidingswijze', ''))
+        html = recept.get('bereidingswijze', '')
+        html = re.sub(r'</p>', '\n', html)
+        html = re.sub(r'<br\s*/?>', '\n', html)
+        plain_text = re.sub(r'<[^>]+>', '', html)
+        regels.append(plain_text.strip())
 
         inhoud = "\n".join(regels)
 
         return Response(inhoud, mimetype='text/plain', headers={"Content-Disposition": f"attachment;filename={recept['titel']}_boodschappenlijst.txt"})
     else:
         return "Recept niet gevonden.", 404
+
 
 
 @app.route('/boodschappenlijst/<int:index>', methods=['GET', 'POST'])
@@ -393,7 +415,7 @@ def boodschappenlijst(index):
         try:
             oorspronkelijk = int(recept.get('personen', 1))
         except (ValueError, TypeError):
-            oorspronkelijk = 1  # Ongestructureerd recept, dus standaard 1 persoon
+            oorspronkelijk = 1
 
         if request.method == 'POST' and 'personen' in request.form:
             try:
@@ -406,7 +428,7 @@ def boodschappenlijst(index):
         factor = nieuw / oorspronkelijk if oorspronkelijk > 0 else 1
 
         geschaald = []
-        schaalbaar = True  # Default aannemen dat schalen kan
+        schaalbaar = not recept.get('geimporteerd', False)  # Alleen schaalbaar als niet geïmporteerd
 
         for ing in recept.get('ingredienten', []):
             if isinstance(ing, dict) and 'aantal' in ing and 'naam' in ing:
@@ -432,6 +454,7 @@ def boodschappenlijst(index):
         return render_template('boodschappenlijst.html', recept=recept, ingredienten=geschaald, personen=nieuw, index=index, schaalbaar=schaalbaar)
     else:
         return "Recept niet gevonden.", 404
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

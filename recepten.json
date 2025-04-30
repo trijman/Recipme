@@ -3,7 +3,7 @@
         "titel": "Beef Rendang",
         "personen": "4",
         "ingredienten": [],
-        "bereidingswijze": "Verhit de oven voor op 100 °C. Pel de sjalotjes, snijd ze in stukken en doe ze in de keukenmachine. Pel de tenen knoflook en voeg ook toe samen met de sambal. Schil de gember, snijd in stukjes en doe ook in de keukenmachine samen met de cashewnoten, kurkuma, komijn en koriander. Maal tot een gladde boemboe. Dit duurt 2-3 min.\r\n\r\nSnijd de runderriblappen in stukken van 3 x 3 cm. Bestrooi met (versgemalen) peper en wat zout. Verhit de olie in een braadpan en bak het vlees in 3 min. aan. Voeg de boemboe toe en bak 4 min. mee. Voeg de kokosmelk en kokoscrème toe. Verkruimel de bouillontabletten erboven. Zet het vuur laag en roer tot de kokoscrème is opgelost. Snijd de stengels sereh een paar keer in de lengte in en leg tussen het vlees. Snijd met een dunschiller of scherp mesje zo dun mogelijk een paar grote stukken van de groene schil van de limoen en leg ook tussen het vlees. Doe de deksel op de pan en zet de pan in het midden van de oven. Laat het gerecht 7 uur stoven.\r\n\r\nNeem na 5 uur de deksel van de pan zodat de saus rustig kan inkoken. De rendang is klaar als het vlees zacht en mals is. Haal de limoenschillen en de sereh uit de pan. Snijd de geschilde limoen in partjes en serveer bij de rendang.\r\n\r\n\r\nBereidingstip:\r\nWil je een slowcooker gebruiken? Maak dan de boemboe volgens het recept en doe samen met 200 ml (ipv 400 ml) kokosmelk, het vlees, de in stukken gesneden kokoscrème, verkruimelde kippenbouillontabletten, sereh en limoenschil in de slowcooker. Roer een keer door zodat alles gelijkmatig is verspreid en laat 9 uur stoven op de lage stand. Roer na 3 en na 7 uur een keer door.",
+        "bereidingswijze": "<p><strong>Verhit de oven voor op 100</strong> °C. Pel de sjalotjes, snijd ze in stukken en doe ze in de keukenmachine.</p><p>Pel de tenen knoflook en voeg ook toe samen met de sambal.</p><p>Schil de gember, snijd in stukjes en doe ook in de keukenmachine samen met de cashewnoten, kurkuma, komijn en koriander. Maal tot een gladde boemboe. Dit duurt 2-3 min. Snijd de runderriblappen in stukken van 3 x 3 cm. Bestrooi met (versgemalen) peper en wat zout. Verhit de olie in een braadpan en bak het vlees in 3 min. aan. Voeg de boemboe toe en bak 4 min. mee. Voeg de kokosmelk en kokoscrème toe. Verkruimel de bouillontabletten erboven. Zet het vuur laag en roer tot de kokoscrème is opgelost. Snijd de stengels sereh een paar keer in de lengte in en leg tussen het vlees. Snijd met een dunschiller of scherp mesje zo dun mogelijk een paar grote stukken van de groene schil van de limoen en leg ook tussen het vlees. Doe de deksel op de pan en zet de pan in het midden van de oven. Laat het gerecht 7 uur stoven. Neem na 5 uur de deksel van de pan zodat de saus rustig kan inkoken. De rendang is klaar als het vlees zacht en mals is. Haal de limoenschillen en de sereh uit de pan. Snijd de geschilde limoen in partjes en serveer bij de rendang. Bereidingstip: Wil je een slowcooker gebruiken? Maak dan de boemboe volgens het recept en doe samen met 200 ml (ipv 400 ml) kokosmelk, het vlees, de in stukken gesneden kokoscrème, verkruimelde kippenbouillontabletten, sereh en limoenschil in de slowcooker. Roer een keer door zodat alles gelijkmatig is verspreid en laat 9 uur stoven op de lage stand. Roer na 3 en na 7 uur een keer door.</p>",
         "soort": "Diner",
         "tags": [
             "indisch",
@@ -13,7 +13,8 @@
         "favoriet": true,
         "foto": "",
         "keuken": "BBQ",
-        "link": "https://www.designtegels.nl"
+        "link": "https://www.designtegels.nl",
+        "laatst_bewerkt": "2025-04-30T12:13:23.153687"
     },
     {
         "titel": "Broodje gegrilde Kip van La Place (Heel lekker op zo'n zachte bol)",
@@ -67,18 +68,21 @@
         "titel": "Greek Spicy Feta Cheese Dip – Tirokafteri",
         "personen": "",
         "ingredienten": [
-            "9 ounces feta",
-            "¾ cup Greek yogurt",
-            "1-2 teaspoons olive oil",
-            "1 teaspoon red wine vinegar",
-            "1 small hot pepper"
+            {
+                "aantal": "",
+                "eenheid": "Eetlepel",
+                "naam": "creme chese"
+            }
         ],
-        "bereidingswijze": "Mash the feta with the yogurt until you have a paste ( it will be a bit grainy).\nAdd the olive oil and vinegar and mix well.\nIn a food processor mince the hot pepper (without the seeds), add to the feta mixture and blend well.\nLet it sit in the refrigerator for about an hour before serving.\nNotes\nYou can sprinkle with oregano or parsley for decoration.",
+        "bereidingswijze": "<p>Mash the feta with the yogurt until you have a paste ( it will be a bit grainy). Add the olive oil and vinegar and mix well. In a food processor mince the hot pepper (without the seeds), add to the feta mixture and blend well. Let it sit in the refrigerator for about an hour before serving. Notes You can sprinkle with oregano or parsley for decoration.</p>",
         "soort": "",
-        "tags": "",
+        "tags": [],
         "waardering": "",
         "favoriet": false,
-        "foto": ""
+        "foto": "",
+        "keuken": "",
+        "link": "",
+        "laatst_bewerkt": "2025-04-30T12:26:52.155362"
     },
     {
         "titel": "Raspberry bacon jam - Lekker voor op een broodje hamburger",
@@ -252,5 +256,92 @@
         "bereidingswijze": "yyy",
         "tags": [],
         "favoriet": false
+    },
+    {
+        "titel": "Broodje gegrilde Kip van La Place 2",
+        "personen": "1",
+        "soort": "Lunch",
+        "keuken": "Grieks",
+        "ingredienten": [
+            {
+                "naam": "3/4 kipfilets"
+            },
+            {
+                "naam": "4 bruine of witte puntjes zoals afbeelding"
+            },
+            {
+                "naam": "45 gr augurken"
+            },
+            {
+                "naam": "45 gr uien"
+            },
+            {
+                "naam": "112 gr creme fraiche (light)"
+            },
+            {
+                "naam": "225 gr mayonaise"
+            },
+            {
+                "naam": "17 gr mosterd marne grof"
+            },
+            {
+                "naam": "11 gr cajun kruiden"
+            },
+            {
+                "naam": "Olijfolie"
+            },
+            {
+                "naam": "Italiaanse kruiden"
+            },
+            {
+                "naam": "Bakje tauge"
+            }
+        ],
+        "bereidingswijze": "Kipfilet marineren met olijf olie en bestrooi ze met italiaanse kruiden en grill ze tot ze goed zijn.\r\n\r\nSaus:\r\nDe uien pellen en fijnhakken\r\nAugurken even laten uitlekken en fijn snijden\r\nWeeg alles af in de bak en roer dit glad met een garde\r\nVoeg de gesneden uien en augurken toe en meng dit door elkaar.\r\n\r\nSnij de kipfilet in plakjes en beleg het op het broodje, sausje erover en tauge en klaar is kees.",
+        "favoriet": false,
+        "link": ""
+    },
+    {
+        "titel": "Test recept zelf ingevoerd",
+        "personen": "7",
+        "soort": "Lunch",
+        "keuken": "India",
+        "ingredienten": [
+            {
+                "aantal": "1",
+                "eenheid": "Stuk",
+                "naam": "tomaat"
+            }
+        ],
+        "bereidingswijze": "<p>jjjjjjjj</p><p><strong>ddddddd</strong></p>",
+        "tags": [],
+        "favoriet": false,
+        "laatst_bewerkt": "2025-04-30T12:30:38.953788"
+    },
+    {
+        "titel": "Beef Rendang Geupload",
+        "personen": "5",
+        "soort": "Lunch",
+        "keuken": "Vietnamees",
+        "ingredienten": [
+            {
+                "naam": "tomaten"
+            },
+            {
+                "naam": "aardappelen"
+            },
+            {
+                "naam": "boter"
+            },
+            {
+                "naam": "water"
+            }
+        ],
+        "bereidingswijze": "<p>Bereidingswijze: Verhit de oven voor op 100 °C. Pel de sjalotjes, snijd ze in stukken en doe ze in de keukenmachine.</p><p>Pel de tenen knoflook en voeg ook toe samen met de sambal. Schil de gember, snijd in stukjes en doe ook in de keukenmachine samen met de cashewnoten, kurkuma, komijn en koriander.</p><p>Maal tot een gladde boemboe. Dit duurt 2-3 min. Snijd de runderriblappen in stukken van 3 x 3 cm. Bestrooi met (versgemalen) peper en wat zout. Verhit de olie in een braadpan en bak het vlees in 3 min. aan. Voeg de boemboe toe en bak 4 min. mee. Voeg de kokosmelk en kokoscrème toe. Verkruimel de bouillontabletten erboven. Zet het vuur laag en roer tot de kokoscrème is opgelost.</p><p><br></p><p><strong>Snijd de stengels sere</strong>h een paar keer in de lengte in en leg tussen het vlees. Snijd met een dunschiller of scherp mesje zo dun mogelijk een paar grote stukken van de groene schil van de limoen en leg ook tussen het vlees. Doe de deksel op de pan en zet de pan in het midden van de oven. Laat het gerecht 7 uur stoven. Neem na 5 uur de deksel van de pan zodat de saus rustig kan inkoken. De rendang is klaar als het vlees zacht en mals is. Haal de limoenschillen en de sereh uit de pan. Snijd de geschilde limoen in partjes en serveer bij de rendang. Bereidingstip: Wil je een slowcooker gebruiken? Maak dan de boemboe volgens het recept en doe samen met 200 ml (ipv 400 ml) kokosmelk, het vlees, de in stukken gesneden kokoscrème, verkruimelde kippenbouillontabletten, sereh en limoenschil in de slowcooker. Roer een keer door zodat alles gelijkmatig is verspreid en laat 9 uur stoven op de lage stand. Roer na 3 en na 7 uur een keer door.</p>",
+        "favoriet": false,
+        "link": "",
+        "geimporteerd": true,
+        "tags": [],
+        "laatst_bewerkt": "2025-04-30T13:33:39.353321"
     }
 ]

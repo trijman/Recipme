@@ -45,6 +45,11 @@
 
     <hr class="neon-line">
 
+		<div class="mb-4 d-grid gap-2 d-md-flex justify-content-md-start">
+			<a href="{{ url_for('home') }}" class="btn btn-secondary w-100 w-md-auto">← Terug</a>
+		</div>
+
+
     <form method="POST" action="/importeren" enctype="multipart/form-data" class="mb-5">
         <div class="mb-3">
             <label class="form-label">Upload een bestand (.txt, .docx, .pdf)</label>
@@ -98,10 +103,15 @@
         <h5 class="mt-4">Inhoud van bestand:</h5>
         <textarea class="form-control" rows="10" readonly>{{ tekst }}</textarea>
 
-        <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
-            <a href="{{ url_for('home') }}" class="btn btn-secondary w-100 w-md-auto">← Terug naar Recepme</a>
-            <button type="submit" class="btn custom-btn w-100 w-md-auto">Opslaan als Recept</button>
-        </div>
+        <div class="row mt-4">
+			<div class="col-12 col-md-auto mb-2 mb-md-0">
+				<a href="{{ url_for('home') }}" class="btn btn-secondary w-100" style="max-width: 200px;">← Terug</a>
+			</div>
+			<div class="col-12 col-md-auto">
+				<button type="submit" class="btn custom-btn w-100" style="max-width: 200px;">Opslaan als Recept</button>
+			</div>
+</div>
+
     </form>
     {% endif %}
 </div>

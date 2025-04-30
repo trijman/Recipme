@@ -51,12 +51,15 @@
             <textarea class="form-control" name="omrekenen" rows="15">{{ inhoud }}</textarea>
         </div>
 
-        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-            <a href="{{ url_for('home') }}" class="btn btn-secondary w-100 w-md-auto">← Terug naar Recepme</a>
-            <button type="submit" class="btn custom-btn w-100 w-md-auto">Opslaan</button>
-        </div>
-    </form>
+		<div class="row mt-4 gy-2 gx-3">
+			<div class="col-12 col-md-auto">
+				<a href="{{ url_for('home') }}" class="btn btn-secondary w-100">← Terug</a>
+			</div>
+			<div class="col-12 col-md-auto">
+				<button type="submit" class="btn custom-btn w-100">Opslaan</button>
+			</div>
 </div>
+
 
 </body>
 </html>

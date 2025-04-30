@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Nieuw Recept - Recepme</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link href="/static/style.css" rel="stylesheet">
     <style>
         .neon-line {
@@ -26,6 +27,13 @@
         body, label, h1, h5, .form-label {
             color: #154754;
         }
+        #editor {
+            background-color: white;
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            min-height: 200px;
+            padding: 10px;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -45,7 +53,7 @@
 
     <hr class="neon-line">
 
-    <form method="POST" action="/nieuw">
+    <form method="POST" action="/nieuw" onsubmit="syncQuill()">
         <div class="mb-3">
             <label class="form-label">Titel</label>
             <input type="text" class="form-control" name="titel" required>
@@ -104,7 +112,8 @@
 
         <div class="mb-4">
             <label class="form-label">Bereidingswijze</label>
-            <textarea class="form-control" name="bereidingswijze" rows="6" required></textarea>
+            <div id="editor"></div>
+            <input type="hidden" name="bereidingswijze" id="bereidingswijze">
         </div>
 
         <div class="mb-4">
@@ -112,12 +121,29 @@
             <input type="url" class="form-control" name="link" placeholder="https://voorbeeld.nl">
         </div>
 
-        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-            <a href="{{ url_for('home') }}" class="btn btn-secondary w-100 w-md-auto">← Terug naar Recepme</a>
-            <button type="submit" class="btn custom-btn w-100 w-md-auto">Opslaan</button>
-        </div>
+        <<div class="row">
+		<div class="col-12 col-md-auto mb-2 mb-md-0">
+			<a href="{{ url_for('home') }}" class="btn btn-secondary w-100">← Terug</a>
+		</div>
+		<div class="col-12 col-md-auto">
+			<button type="submit" class="btn custom-btn w-100">Opslaan</button>
+		</div>
+</div>
+
     </form>
 </div>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+  var quill = new Quill('#editor', {
+    theme: 'snow',
+    placeholder: 'Schrijf hier de bereidingswijze...'
+  });
+
+  function syncQuill() {
+    document.getElementById('bereidingswijze').value = quill.root.innerHTML;
+  }
+</script>
 
 </body>
 </html>

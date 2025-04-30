@@ -29,8 +29,10 @@
             background-color: #103b42;
         }
         @media print {
-            .no-print {
-                display: none;
+            .no-print,
+            .no-print * {
+                display: none !important;
+                visibility: hidden;
             }
         }
     </style>
@@ -52,7 +54,9 @@
 
     <hr class="neon-line">
 
-    <p><strong>Personen:</strong> {{ recept.personen }}</p>
+    {% if recept.personen %}
+        <p><strong>Personen:</strong> {{ recept.personen }}</p>
+    {% endif %}
 
     <h4>Ingrediënten:</h4>
     <ul>
@@ -61,18 +65,18 @@
             {% if ingrediënt.aantal is defined %}
                 {{ ingrediënt.aantal }} {{ ingrediënt.eenheid }} {{ ingrediënt.naam }}
             {% else %}
-                {{ ingrediënt }}
+                {{ ingrediënt.naam }}
             {% endif %}
         </li>
         {% endfor %}
     </ul>
 
     <h4>Bereidingswijze:</h4>
-    <p>{{ recept.bereidingswijze }}</p>
+    <div>{{ recept.bereidingswijze|safe }}</div>
 
     <div class="no-print text-center mt-4 d-grid gap-2 d-md-flex justify-content-md-center">
         <button onclick="window.print()" class="btn custom-btn w-100 w-md-auto">Print deze pagina</button>
-        <a href="{{ url_for('home') }}" class="btn btn-secondary w-100 w-md-auto">← Terug naar Recepme</a>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary w-100 w-md-auto">← Terug</a>
     </div>
 </div>
 

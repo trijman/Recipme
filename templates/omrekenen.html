@@ -26,6 +26,10 @@
         body, label, h1, .form-label {
             color: #154754;
         }
+        .tabel-container {
+            max-width: 800px;
+            margin: auto;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -46,40 +50,42 @@
     <hr class="neon-line">
 
     <form method="POST" action="/omrekenen">
-        <div class="table-responsive mb-4">
-            <table class="table table-bordered align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>Invoer</th>
-                        <th class="text-center">=</th>
-                        <th>Uitkomst</th>
-                        <th class="text-center">Verwijder</th>
-                    </tr>
-                </thead>
-                <tbody id="omreken-tabel">
-                    {% for regel in regels %}
-                    <tr>
-                        <td><input type="text" name="invoer" value="{{ regel.invoer }}" class="form-control"></td>
-                        <td class="text-center">=</td>
-                        <td><input type="text" name="uitkomst" value="{{ regel.uitkomst }}" class="form-control"></td>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">x</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-outline-secondary mb-3" onclick="voegRijToe()">+ Nieuwe regel</button>
-        </div>
+        <div class="tabel-container">
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Invoer</th>
+                            <th class="text-center">=</th>
+                            <th>Uitkomst</th>
+                            <th class="text-center">Verwijder</th>
+                        </tr>
+                    </thead>
+                    <tbody id="omreken-tabel">
+                        {% for regel in regels %}
+                        <tr>
+                            <td><input type="text" name="invoer" value="{{ regel.invoer }}" class="form-control"></td>
+                            <td class="text-center">=</td>
+                            <td><input type="text" name="uitkomst" value="{{ regel.uitkomst }}" class="form-control"></td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">x</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-outline-secondary mb-3" onclick="voegRijToe()">+ Nieuwe regel</button>
+            </div>
 
-		<div class="row mt-4 gy-2 gx-3">
-			<div class="col-12 col-md-auto">
-				<a href="{{ url_for('home') }}" class="btn btn-secondary w-100">← Terug</a>
-			</div>
-			<div class="col-12 col-md-auto">
-				<button type="submit" class="btn custom-btn w-100">Opslaan</button>
-			</div>
-		</div>
+            <div class="row mt-4 gy-2 gx-3">
+                <div class="col-12 col-md-auto">
+                    <a href="{{ url_for('home') }}" class="btn btn-secondary w-100">← Terug</a>
+                </div>
+                <div class="col-12 col-md-auto">
+                    <button type="submit" class="btn custom-btn w-100">Opslaan</button>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 

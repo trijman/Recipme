@@ -479,21 +479,28 @@ def logout():
 @login_required
 def omrekenen():
     bestand = 'data/omrekenen.json'
-    inhoud = ""
+    regels = []
 
     if request.method == 'POST':
-        inhoud = request.form.get('omrekenen', '')
+        invoer_lijst = request.form.getlist('invoer')
+        uitkomst_lijst = request.form.getlist('uitkomst')
+        regels = [
+            {'invoer': i.strip(), 'uitkomst': u.strip()}
+            for i, u in zip(invoer_lijst, uitkomst_lijst)
+            if i.strip() or u.strip()
+        ]
         with open(bestand, 'w', encoding='utf-8') as f:
-            json.dump({'tekst': inhoud}, f, indent=2, ensure_ascii=False)
+            json.dump({'regels': regels}, f, indent=2, ensure_ascii=False)
 
     elif os.path.exists(bestand):
         try:
             with open(bestand, 'r', encoding='utf-8') as f:
-                inhoud = json.load(f).get('tekst', '')
+                regels = json.load(f).get('regels', [])
         except (json.JSONDecodeError, FileNotFoundError):
-            inhoud = ""
+            regels = []
 
-    return render_template('omrekenen.html', inhoud=inhoud)
+    return render_template('omrekenen.html', regels=regels)
+
 
 
 

@@ -47,9 +47,27 @@
 {% endif %}
 
 <div class="container-fluid px-3 my-0">
-    <div class="text-center">
+    <div class="d-flex justify-content-between align-items-center">
+    <!-- Mobiel hamburgermenu -->
+    <div class="d-md-none">
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="mobielMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                ☰ Menu
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="mobielMenu">
+                <li><a class="dropdown-item" href="{{ url_for('nieuw_recept') }}">Nieuw Recept</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('importeer_recept') }}">Importeer Recept</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('favoriete_ingredienten') }}">Favoriete Ingrediënten</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('omrekenen') }}">Omrekenen</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('instellingen') }}">Instellingen</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="text-center mx-auto">
         <img src="{{ url_for('static', filename='Recepme_logo.png') }}" alt="Recepme logo" style="width: 200px; margin-top: 2px; margin-bottom: 2px;">
     </div>
+</div>
+
 
 
     
@@ -67,19 +85,7 @@
 			</div>
     </div>
 
-    <div class="d-flex d-md-none flex-column gap-2">
-        <a href="{{ url_for('nieuw_recept') }}" class="btn custom-btn w-100">Nieuw Recept</a>
-
-        <div class="d-flex gap-2">
-            <a href="{{ url_for('importeer_recept') }}" class="btn custom-btn w-50">Importeer Recept</a>
-            <a href="{{ url_for('favoriete_ingredienten') }}" class="btn custom-btn w-50">FAV Ingrediënten</a>
-        </div>
-
-        <div class="d-flex gap-2">
-            <a href="{{ url_for('omrekenen') }}" class="btn custom-btn w-50">Omrekenen</a>
-            <a href="{{ url_for('instellingen') }}" class="btn btn-outline-secondary w-50">Instellingen</a>
-        </div>
-    </div>
+    
 </div>
 
 
@@ -219,6 +225,9 @@
         </div>
     {% endif %}
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>

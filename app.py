@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, Response
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import json
 import os
 from werkzeug.utils import secure_filename
@@ -20,6 +20,9 @@ app.permanent_session_lifetime = timedelta(days=30)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'txt', 'docx', 'pdf'}
+# Simpele inloggegevens
+ADMIN_EMAIL = "admin"
+ADMIN_WACHTWOORD = "test"
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -461,13 +464,13 @@ def login():
     if request.method == 'POST':
         gebruikersnaam = request.form['gebruikersnaam']
         wachtwoord = request.form['wachtwoord']
-        users = load_users()
-        if gebruikersnaam in users and users[gebruikersnaam] == hash_password(wachtwoord):
-            session.permanent = True
+
+        if gebruikersnaam == ADMIN_EMAIL and wachtwoord == ADMIN_WACHTWOORD:
             session['gebruiker'] = gebruikersnaam
             return redirect(url_for('home'))
         else:
             return render_template('login.html', foutmelding="Ongeldige inloggegevens.")
+
     return render_template('login.html')
 
 @app.route('/logout')

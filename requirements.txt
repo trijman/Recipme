@@ -10,4 +10,7 @@ pdfplumber
 pdf2image
 pillow
 markdown
-
+google-api-python-client
+google-auth
+google-auth-httplib2
+google-auth-oauthlib

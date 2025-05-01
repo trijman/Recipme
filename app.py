@@ -31,6 +31,17 @@ if not os.path.exists(UPLOAD_FOLDER):
     
 # Drive functies
 
+from functools import wraps
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'gebruiker' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 def get_drive_service():
     json_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "drive_service_account.json")
     credentials = service_account.Credentials.from_service_account_file(

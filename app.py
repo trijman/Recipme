@@ -1,31 +1,113 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, Response
 import json
 import os
 from werkzeug.utils import secure_filename
 import docx
 import pdfplumber
-from flask import session
 import hashlib
-from datetime import timedelta
-from datetime import datetime
+from datetime import timedelta, datetime
 import markdown
 from markupsafe import Markup
 import re
+import io
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 
 
 
 app = Flask(__name__)
-app.secret_key = 'geheime_sleutel_voor_session'  # Mag je later aanpassen naar iets veiligs
+app.secret_key = 'geheime_sleutel_voor_session'
 app.permanent_session_lifetime = timedelta(days=30)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'txt', 'docx', 'pdf'}
-# Simpele inloggegevens
 ADMIN_EMAIL = "admin"
 ADMIN_WACHTWOORD = "test"
+GOOGLE_DRIVE_FOLDER_ID = "1BHkByvXM4JoMD3JrX2fsgUKPD3CMdLh3"
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+    
+# Drive functies
+
+def get_drive_service():
+    json_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "drive_service_account.json")
+    credentials = service_account.Credentials.from_service_account_file(
+        json_path,
+        scopes=['https://www.googleapis.com/auth/drive']
+    )
+    return build('drive', 'v3', credentials=credentials)
+
+def upload_to_drive(local_path, filename_on_drive, folder_id=None):
+    service = get_drive_service()
+    query = f"name = '{filename_on_drive}'"
+    if folder_id:
+        query += f" and '{folder_id}' in parents"
+    results = service.files().list(q=query, spaces='drive').execute()
+    files = results.get('files', [])
+    file_metadata = {'name': filename_on_drive}
+    if folder_id:
+        file_metadata['parents'] = [folder_id]
+    media = MediaFileUpload(local_path, resumable=True)
+    if files:
+        file_id = files[0]['id']
+        service.files().update(fileId=file_id, media_body=media).execute()
+    else:
+        service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+
+def download_from_drive(filename_on_drive, local_path, folder_id=None):
+    service = get_drive_service()
+    query = f"name = '{filename_on_drive}'"
+    if folder_id:
+        query += f" and '{folder_id}' in parents"
+    results = service.files().list(q=query, spaces='drive').execute()
+    files = results.get('files', [])
+    if not files:
+        return False
+    file_id = files[0]['id']
+    request = service.files().get_media(fileId=file_id)
+    fh = io.FileIO(local_path, 'wb')
+    downloader = MediaIoBaseDownload(fh, request)
+    done = False
+    while not done:
+        status, done = downloader.next_chunk()
+    return True
+
+# Automatisch downloaden bij starten
+for bestand in ["recepten.json", "instellingen.json", "favoriete_ingredienten.txt"]:
+    download_from_drive(bestand, bestand, GOOGLE_DRIVE_FOLDER_ID)
+
+# bestaande functies...
+# in save_recipes(), save_settings() en favorieten toevoegen:
+
+def save_recipes(recepten):
+    with open('recepten.json', 'w', encoding='utf-8') as f:
+        json.dump(recepten, f, indent=4, ensure_ascii=False)
+    upload_to_drive("recepten.json", "recepten.json", GOOGLE_DRIVE_FOLDER_ID)
+
+def save_settings(instellingen):
+    with open('instellingen.json', 'w', encoding='utf-8') as f:
+        json.dump(instellingen, f, indent=4, ensure_ascii=False)
+    upload_to_drive("instellingen.json", "instellingen.json", GOOGLE_DRIVE_FOLDER_ID)
+
+# in favoriete_ingredienten(): upload na schrijven
+@app.route('/favorieten', methods=['GET', 'POST'])
+@login_required
+def favoriete_ingredienten():
+    if request.method == 'POST':
+        favorieten = request.form['favorieten']
+        with open('favoriete_ingredienten.txt', 'w', encoding='utf-8') as f:
+            f.write(favorieten)
+        upload_to_drive("favoriete_ingredienten.txt", "favoriete_ingredienten.txt", GOOGLE_DRIVE_FOLDER_ID)
+        return redirect(url_for('home'))
+    else:
+        try:
+            with open('favoriete_ingredienten.txt', 'r', encoding='utf-8') as f:
+                favorieten = f.read()
+        except FileNotFoundError:
+            favorieten = ''
+        return render_template('favorieten.html', favorieten=favorieten)    
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -61,9 +143,6 @@ def login_required(f):
     return decorated_function
         
 
-def save_recipes(recepten):
-    with open('recepten.json', 'w', encoding='utf-8') as f:
-        json.dump(recepten, f, indent=4, ensure_ascii=False)
 
 def load_settings():
     try:
@@ -78,9 +157,7 @@ def load_settings():
             "dark_mode": False
         }
 
-def save_settings(instellingen):
-    with open('instellingen.json', 'w', encoding='utf-8') as f:
-        json.dump(instellingen, f, indent=4, ensure_ascii=False)
+
 
 @app.route('/')
 @login_required
@@ -288,7 +365,9 @@ def favoriete_ingredienten():
         favorieten = request.form['favorieten']
         with open('favoriete_ingredienten.txt', 'w', encoding='utf-8') as f:
             f.write(favorieten)
+        upload_to_drive("favoriete_ingredienten.txt", "favoriete_ingredienten.txt", GOOGLE_DRIVE_FOLDER_ID)
         return redirect(url_for('home'))
+
     else:
         try:
             with open('favoriete_ingredienten.txt', 'r', encoding='utf-8') as f:

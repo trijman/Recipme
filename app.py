@@ -369,23 +369,7 @@ def instellingen():
 
     return render_template('instellingen.html', instellingen=instellingen)
 
-@app.route('/favorieten', methods=['GET', 'POST'])
-@login_required
-def favoriete_ingredienten():
-    if request.method == 'POST':
-        favorieten = request.form['favorieten']
-        with open('favoriete_ingredienten.txt', 'w', encoding='utf-8') as f:
-            f.write(favorieten)
-        upload_to_drive("favoriete_ingredienten.txt", "favoriete_ingredienten.txt", GOOGLE_DRIVE_FOLDER_ID)
-        return redirect(url_for('home'))
 
-    else:
-        try:
-            with open('favoriete_ingredienten.txt', 'r', encoding='utf-8') as f:
-                favorieten = f.read()
-        except FileNotFoundError:
-            favorieten = ''
-        return render_template('favorieten.html', favorieten=favorieten)
 
 @app.route('/importeren', methods=['GET', 'POST'])
 @login_required
